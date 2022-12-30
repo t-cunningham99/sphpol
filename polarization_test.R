@@ -23,22 +23,10 @@ for (i in 1:5151) {
   dfPol$c_norm[i] <- test[[3]]
   dfPol$r_norm[i] <- test[[4]]
   dfPol$sdist_pp[i] <- test[[5]]
-  dfPol$sdist_lext[i] <- test[[6]]
-  dfPol$sdist_rext[i] <- test[[7]]
-  dfPol$sdist_cline[i] <- test[[8]]
-  dfPol$pol_other[i] <- test[[9]]
-  dfPol$pol_alt[i] <- test[[10]]
-  dfPol$pol_alternative[i] <- test[[11]]
 }
 
 
-diff <- as.data.frame(diff(as.ts(dfPol$output)))
-diff$lev <- seq.int(nrow(diff))
-dfPol <- dfPol %>%
-  left_join(diff, 
-            by = "lev")
-
-ppol <- max(dfPol$pol_alternative)
+ppol <- max(dfPol$output)
 
 p <- plot_ly(data = dfPol, 
              x = dfPol$l_norm, 
@@ -47,7 +35,7 @@ p <- plot_ly(data = dfPol,
              type = "mesh3d",
              cmin = 0, 
              cmax = ppol, 
-             intensity = dfPol$pol_alternative)
+             intensity = dfPol$output)
 p
 
 save.dta13(dfPol, file = "tempfiles/poltest.dta")
